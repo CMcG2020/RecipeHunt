@@ -15,9 +15,6 @@ def recipe_search(ingredient, time, mealType):
 def get_recipes():
     ingredient = input('Enter an ingredient: ')
     time = input('How much time do you have to cook: ')
-
-    
-
     mealType = input('Please chose a meal type: ')
     results = recipe_search(ingredient, time, mealType)
     print (results)
@@ -37,6 +34,7 @@ def get_recipes():
             file.write('Ingredients: ' + str(recipe_data['ingredientLines']) + '\n')
             file.write('Link: ' + recipe_data['url'] + '\n')
             file.write('\n')
+            break
     file.close()
     return results
 
