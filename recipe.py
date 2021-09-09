@@ -15,7 +15,7 @@ def recipe_search(ingredient, time, mealType):
 def get_recipes():
     ingredient = input('Enter an ingredient: ')
     time = input('How much time do you have to cook: ')
-    mealType = input('Please chose a meal type: Breakfast, Dinner, Lunch, Snack, Teatime ')
+    mealType = input('Please chose a meal type: Breakfast, Dinner, Lunch, Snack, Teatime: ')
     results = recipe_search(ingredient, time, mealType)
     print (results)
 
@@ -37,25 +37,25 @@ def get_recipes():
     return results
 
 # function to sort by calories per serving
-def sort_recipes():
-    with open('recipes.txt', 'r') as file:
-        lines = file.readlines()
-        lines.sort(int(lambda x: x.split()[2]))
-        file.close()
-    with open('recipes.txt', 'w') as file:
-        file.writelines(lines)
-        file.close()
+def read_file(file_name):
+    with open(file_name) as f:
+        lines = f.readlines()
+        return lines
 
-def display_recipes():
-    with open('recipes.txt', 'r') as file:
-        lines = file.readlines()
-        for line in lines:
-            print(line)
-        file.close()
+def sort_file(file_name):
+    lines = read_file(file_name)
+    lines.sort(key=lambda line: line.split()[2])
+    return lines
+
+def print_sorted_file(file_name):
+    lines = sort_file(file_name)
+    for line in lines:
+        print(line)
+
+
 
 def main():
     get_recipes()
-    sort_recipes()
-    display_recipes()
+    print_sorted_file("recipes.txt")
 
 main()
