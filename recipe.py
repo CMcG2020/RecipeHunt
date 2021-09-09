@@ -12,43 +12,46 @@ def recipe_search(ingredient, time):
     return data['hits']
 
 def get_recepies():
-
-    while True:
-        try:
-            ingredient = input('Enter an ingredient: ')
-            if ingredient.isdigit():
-                raise ValueError
-            else:
-                time = input('How much time do you have to cook: ')
-        except ValueError:
-                print("Please enter ingredient name")
-
+    ingredient = input('Enter an ingredient: ')
     time = input('How much time do you have to cook: ')
     results = recipe_search(ingredient, time)
     #print (results)
     
-    file_path = r'C:\Users\goatl\Desktop'
-    file_name = 'recipes.txt'
-    with open(os.path.join(file_path, file_name, 'w')) as file:
-        for result in results:
-            recipe = result['recipe']
-            print("Label:- ", recipe['label'])
-            file.write(recipe['label'] + '\n')
-            print("uri:- ",recipe['uri'])
-            print("url:- ",recipe['url'])
-            print("ingridentlines:- ", recipe['ingredientLines'])
-            print("mealtype:- ", recipe['mealType'])
-            print("dietlabels:- ", recipe['dietLabels'])
-            print("healthlabels:- ", recipe['healthLabels'])
-            print("ingridients:- ", recipe['ingredients'])
-            print("calories:- ", recipe['calories'])
-            print("serving:- ", recipe['yield'])
-            print("totaltime:- ", recipe['totalTime'])
-            print("cuisine:- ", recipe['cuisineType'])
-            print("nutrients:- ", recipe['totalNutrients'])
-            print()
-            file.close()
+
+    with open('recipes.txt', 'w')) as file:
+        for recipe in results:
+            recipe_data = recipe['recipe']
+            file.write('Recipe: ' + recipe_data['label'] + '\n')
+            file.write('Calories: ' + str(recipe_data['calories']) + '\n')
+            file.write('Time to cook: ' + str(recipe_data['totalTime']) + '\n')
+            file.write('Ingredients: ' + str(recipe_data['ingredientLines']) + '\n')
+            file.write('Link: ' + recipe_data['url'] + '\n')
+            file.write('\n')
+    file.close()
+    return results
             
         
 
-get_recepies()
+
+def sort_recipes():
+    with open('recipes.txt', 'r') as file:
+        lines = file.readlines()
+        lines.sort(key=lambda x: x.split()[1])
+        file.close()
+    with open('recipes.txt', 'w') as file:
+        file.writelines(lines)
+        file.close()
+
+def display_recipes():
+    with open('recipes.txt', 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            print(line)
+        file.close()
+
+def main():
+    get_recepies()
+    sort_recipes()
+    display_recipes()
+
+main()
