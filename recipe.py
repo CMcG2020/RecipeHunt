@@ -18,7 +18,7 @@ def get_recepies():
     #print (results)
     
 
-    with open('recipes.txt', 'w')) as file:
+    with open('recipes.txt', 'w') as file:
         for recipe in results:
             recipe_data = recipe['recipe']
             file.write('Recipe: ' + recipe_data['label'] + '\n')
