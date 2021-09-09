@@ -1,5 +1,4 @@
 import requests
-import os.path
 
 def recipe_search(ingredient, time):
     # Register to get an APP ID and key https://developer.edamam.com/
@@ -13,29 +12,21 @@ def recipe_search(ingredient, time):
 
 def get_recepies():
 
-    while True:
-        try:
-            ingredient = input('Enter an ingredient: ')
-            if ingredient.isdigit():
-                raise ValueError
-            else:
-                time = input('How much time do you have to cook: ')
-        except ValueError:
-                print("Please enter ingredient name")
-
+   
+    ingredient = input('Enter an ingredient: ')
     time = input('How much time do you have to cook: ')
+
     results = recipe_search(ingredient, time)
     #print (results)
     
-    file_path = r'C:\Users\goatl\Desktop'
-    file_name = 'recipes.txt'
-    with open(os.path.join(file_path, file_name, 'w')) as file:
+
+    with open('recipes.txt', 'w') as file:
         for result in results:
             recipe = result['recipe']
-            print("Label:- ", recipe['label'])
-            file.write(recipe['label'] + '\n')
-            print("uri:- ",recipe['uri'])
+            #print("Label:- ", recipe['label'])
+            file.write(recipe['label']+ '\n')
             print("url:- ",recipe['url'])
+            #file.write(recipe['url'] + '\n')
             print("ingridentlines:- ", recipe['ingredientLines'])
             print("mealtype:- ", recipe['mealType'])
             print("dietlabels:- ", recipe['dietLabels'])
@@ -47,7 +38,7 @@ def get_recepies():
             print("cuisine:- ", recipe['cuisineType'])
             print("nutrients:- ", recipe['totalNutrients'])
             print()
-            file.close()
+        file.close()
             
         
 
