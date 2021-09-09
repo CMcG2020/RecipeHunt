@@ -21,6 +21,7 @@ def get_recipes():
 
 # find serving size for each recipe and calculate calories per serving
 
+
     
 # make a file to store the results
     with open('recipes.txt', 'w') as file:
@@ -28,10 +29,12 @@ def get_recipes():
             recipe_data = recipe['recipe']
             file.write('Recipe: ' + recipe_data['label'] + '\n')
             file.write('Calories: ' + str(recipe_data['calories']) + '\n')
+            file.write('Calories per serving: ' + (recipe_data['calories'] / recipe_data['yield']) + '\n')
             file.write('Time to cook: ' + str(recipe_data['totalTime']) + '\n')
             file.write('Ingredients: ' + str(recipe_data['ingredientLines']) + '\n')
             file.write('Link: ' + recipe_data['url'] + '\n')
             file.write('\n')
+            break
     file.close()
     return results
 
