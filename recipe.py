@@ -1,24 +1,29 @@
 import requests
-import os.path
 
-def recipe_search(ingredient, time):
+# function to connect with the API
+def recipe_search(ingredient, time, mealType):
     # Register to get an APP ID and key https://developer.edamam.com/
     app_id = 'f79ed4b2'
     app_key = '758ec61e53ffcfdba764003d0c8ceb29'
     result = requests.get(
     'https://api.edamam.com/search?q={}&app_id={}&app_key={}&time={}'
-    .format(ingredient, app_id,app_key, time))
+    .format(ingredient, app_id,app_key, time, mealType))
     data = result.json()
     return data['hits']
 
-def get_recepies():
+# get input from User - an ingredient and time allowance to filter the recipes
+def get_recipes():
     ingredient = input('Enter an ingredient: ')
     time = input('How much time do you have to cook: ')
-    results = recipe_search(ingredient, time)
-    #print (results)
-    
+    mealType = input('Please chose a meal type: ')
+    results = recipe_search(ingredient, time, mealType)
+    print (results)
 
-    with open('recipes.txt', 'w')) as file:
+# find serving size for each recipe and calculate calories per serving
+
+    
+# make a file to store the results
+    with open('recipes.txt', 'w') as file:
         for recipe in results:
             recipe_data = recipe['recipe']
             file.write('Recipe: ' + recipe_data['label'] + '\n')
@@ -29,10 +34,8 @@ def get_recepies():
             file.write('\n')
     file.close()
     return results
-            
-        
 
-
+# function
 def sort_recipes():
     with open('recipes.txt', 'r') as file:
         lines = file.readlines()
@@ -50,7 +53,7 @@ def display_recipes():
         file.close()
 
 def main():
-    get_recepies()
+    get_recipes()
     sort_recipes()
     display_recipes()
 
