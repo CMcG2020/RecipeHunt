@@ -27,9 +27,10 @@ def get_recipes():
     with open('recipes.txt', 'w') as file:
         for recipe in results:
             recipe_data = recipe['recipe']
+            calories_per_serving = int(recipe_data['calories'] / int(recipe_data['yield']))
             file.write('Recipe: ' + recipe_data['label'] + '\n')
             file.write('Calories: ' + str(recipe_data['calories']) + '\n')
-            file.write('Calories per serving: ' + (recipe_data['calories'] / recipe_data['yield']) + '\n')
+            file.write('Calories per serving: ' + str(calories_per_serving) + '\n')
             file.write('Time to cook: ' + str(recipe_data['totalTime']) + '\n')
             file.write('Ingredients: ' + str(recipe_data['ingredientLines']) + '\n')
             file.write('Link: ' + recipe_data['url'] + '\n')
