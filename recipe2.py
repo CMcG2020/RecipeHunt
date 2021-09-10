@@ -1,5 +1,4 @@
 import requests
-import csv
 import pandas as pd
 
 # function to connect with the API
@@ -19,33 +18,36 @@ def get_recipes():
     time = input('How much time do you have to cook: ')
     mealType = input('Please chose a meal type: Breakfast, Dinner, Lunch, Snack, Teatime: ')
     results = recipe_search(ingredient, time, mealType)
+    print (results)
 
    
 # make a file to store the results
-def make_csv(results):
-    with open('recipe.csv', 'w') as csvfile:
-        fieldnames = ['recipe_name', 'recipe_url']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
+def make_file():
+    with open('recipe.csv', 'w') as file:
+        file.write('recipe_name,ingredients,calories,recipe_url\n')
         for result in results:
-            writer.writerow(result)
+            recipe_name = result['recipe']['label']
+            ingredients = result['recipe']['ingredientLines']
+            calories = result['recipe']['calories']
+            recipe_url = result['recipe']['url']
+            file.write('{},{},{},{}\n'.format(recipe_name, ingredients, calories, recipe_url))
 
-# sort the results
-def sort_csv():
+# sort the file
+def sort_file():
     df = pd.read_csv('recipe.csv')
-    df = df.sort_values(by=['recipe_name'])
+    df = df.sort_values(by=['calories'])
     df.to_csv('recipe.csv', index=False)
 
-# display the results
-def display_results():
+# display the top 5 results
+def display_top_5():
     df = pd.read_csv('recipe.csv')
-    print(df.head())
+    print(df.head(5))
 
 # main function
 def main():
-    results = get_recipes()
-    make_csv(results)
-    sort_csv()
-    display_results()
+    get_recipes()
+    make_file()
+    sort_file()
+    display_top_5()
 
 main()
