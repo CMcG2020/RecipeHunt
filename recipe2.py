@@ -20,29 +20,30 @@ def get_recipes():
     results = recipe_search(ingredient, time, mealType)
 
     with open('recipe.csv', 'w') as file:
-        file.write('recipe_name,ingredients,calories,recipe_url\n')
+        file.write('recipe_name,calories,calories_per_serving,recipe_url,ingredients\n')
         for result in results:
             recipe_name = result['recipe']['label']
-            ingredients = result['recipe']['ingredientLines']
             calories = result['recipe']['calories']
+            calories_per_serving = int(result['recipe']['calories'] / int(result['recipe']['yield']))
             recipe_url = result['recipe']['url']
-            file.write('{},{},{},{}\n'.format(recipe_name, ingredients, calories, recipe_url))
+            ingredients = result['recipe']['ingredients']
+            file.write('{},{},{},{}\n'.format(recipe_name, calories, calories_per_serving, recipe_url,ingredients))
 
-# sort the file and display the top 5 results
+# sort the file and display the top 5 results by calories
 def sort_file():
-    df = pd.read_csv('recipe.csv')
-    df = df.sort_values(by=['calories'], ascending=False)
+    df = pd.read_csv('recipe.csv', encoding='unicode_escape')
+    df = df.sort_values(by=['calories_per_serving'], ascending=True)
     df.to_csv('recipe.csv', index=False)
-    print(df.head(5))
  
-''''def display_top_5():
-    df = pd.read_csv('recipe.csv')
-    print(df.head(5))'''
+ 
+def display_top_5():
+    df = pd.read_csv('recipe.csv', encoding='unicode_escape')
+    print(df.head(5))
 
 # main function
 def main():
     get_recipes()
     sort_file()
-    #display_top_5()
+    display_top_5()
 
 main()
