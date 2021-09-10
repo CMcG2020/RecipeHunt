@@ -18,11 +18,7 @@ def get_recipes():
     time = input('How much time do you have to cook: ')
     mealType = input('Please chose a meal type: Breakfast, Dinner, Lunch, Snack, Teatime: ')
     results = recipe_search(ingredient, time, mealType)
-    print (results)
 
-   
-# make a file to store the results
-def make_file():
     with open('recipe.csv', 'w') as file:
         file.write('recipe_name,ingredients,calories,recipe_url\n')
         for result in results:
@@ -32,22 +28,21 @@ def make_file():
             recipe_url = result['recipe']['url']
             file.write('{},{},{},{}\n'.format(recipe_name, ingredients, calories, recipe_url))
 
-# sort the file
+# sort the file and display the top 5 results
 def sort_file():
     df = pd.read_csv('recipe.csv')
-    df = df.sort_values(by=['calories'])
+    df = df.sort_values(by=['calories'], ascending=False)
     df.to_csv('recipe.csv', index=False)
-
-# display the top 5 results
-def display_top_5():
-    df = pd.read_csv('recipe.csv')
     print(df.head(5))
+ 
+''''def display_top_5():
+    df = pd.read_csv('recipe.csv')
+    print(df.head(5))'''
 
 # main function
 def main():
     get_recipes()
-    make_file()
     sort_file()
-    display_top_5()
+    #display_top_5()
 
 main()
