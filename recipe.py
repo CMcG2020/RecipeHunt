@@ -1,3 +1,4 @@
+
 import requests
 
 # function to connect with the API
@@ -11,19 +12,14 @@ def recipe_search(ingredient, time, mealType):
     data = result.json()
     return data['hits']
 
-# get input from User - an ingredient, time allowance and meal type to filter the recipes
+# get input from User - an ingredient and time allowance to filter the recipes
 def get_recipes():
-    ingredient = input('Enter you ingredient(s): ')
-    # set up option if more than one ingredient is entered
-    user_choice = ingredient.split()
-    items = ',+'.join(user_choice) or 'and+'.join(user_choice) or ' +'.join(user_choice)
-    ingredients = 'ingredients=' + items
-    all_ingredients = 'q={}'.format(ingredients)
-
+    ingredient = input('Enter an ingredient: ')
     time = input('How much time do you have to cook: ')
-    mealType = input('Please choose a meal type from Breakfast, Lunch, Dinner, Snack or Teatime: ')
+    mealType = input('Please chose a meal type: Breakfast, Dinner, Lunch, Snack, Teatime: ')
     results = recipe_search(ingredient, time, mealType)
     print (results)
+
    
 # make a file to store the results
     with open('recipes.txt', 'w') as file:
@@ -41,7 +37,6 @@ def get_recipes():
     file.close()
     return results
 
-
 # function to sort by calories per serving
 def read_file(file_name):
     with open(file_name) as f:
@@ -57,6 +52,8 @@ def print_sorted_file(file_name):
     lines = sort_file(file_name)
     for line in lines:
         print(line)
+
+
 
 def main():
     get_recipes()
