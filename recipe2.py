@@ -26,8 +26,8 @@ def get_recipes():
             calories = result['recipe']['calories']
             calories_per_serving = int(result['recipe']['calories'] / int(result['recipe']['yield']))
             recipe_url = result['recipe']['url']
-            ingredients = result['recipe']['ingredients']
-            file.write('{},{},{},{}\n'.format(recipe_name, calories, calories_per_serving, recipe_url,ingredients))
+            ingredients = result['recipe']['ingredientslines']
+            file.write('{},{},{},{},{}\n'.format(recipe_name, calories, calories_per_serving, recipe_url,ingredients))
 
 # sort the file and display the top 5 results by calories
 def sort_file():
