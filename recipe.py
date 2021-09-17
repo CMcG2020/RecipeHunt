@@ -53,6 +53,16 @@ def print_sorted_file(file_name):
     for line in lines:
         print(line)
 
+# sort the file and display the top 5 results by calories
+def sort_file():
+    df = pd.read_csv('recipe.csv', encoding='unicode_escape')
+    df = df.sort_values(by=['calories_per_serving'], ascending=True)
+    df.to_csv('recipe.csv', index=False)
+
+
+def display_top_5():
+    df = pd.read_csv('recipe.csv', encoding='unicode_escape')
+    print(df.head(5))
 
 
 def main():
