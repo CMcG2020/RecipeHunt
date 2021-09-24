@@ -37,6 +37,14 @@ def get_recipes():
     file.close()
     return results
 
+ def write_to_csv(self, results):
+            with open('recipe.csv', 'w') as csvfile:
+                fieldnames = ['recipe_name', 'yield', 'calories_per_serving', 'recipe_url', 'ingredients']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                for recipe in results:
+                    writer.writerow(recipe)
+
 # function to sort by calories per serving
 def read_file(file_name):
     with open(file_name) as f:
